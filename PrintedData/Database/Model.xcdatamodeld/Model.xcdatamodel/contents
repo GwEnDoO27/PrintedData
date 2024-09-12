@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23G93" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Userdata" representedClassName="Userdata" syncable="YES" codeGenerationType="class">
+        <attribute name="cube" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="gramms" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="metre" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="printime" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="projectname" optional="YES" attributeType="String"/>
+        <attribute name="todaydate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
+</model>
