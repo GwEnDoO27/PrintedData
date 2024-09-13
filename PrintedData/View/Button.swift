@@ -7,12 +7,24 @@
 
 import SwiftUI
 
-struct Button: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct CustomButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack {
+            Spacer()
+            configuration.label
+            Spacer()
+        }
+        .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6))
+        .font(.system(.title2, design: .rounded).bold())
+        .padding(EdgeInsets(top: 6, leading: 6, bottom: 6, trailing: 6))
+        .foregroundColor(.yellow)
+        .scaleEffect(configuration.isPressed ? 1.2 : 1)
+        .background {
+            Capsule()
+                .stroke(.yellow, lineWidth: 2)
+        }
     }
 }
 
-#Preview {
-    Button()
-}
+
+

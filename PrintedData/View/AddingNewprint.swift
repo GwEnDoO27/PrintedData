@@ -15,9 +15,9 @@ struct AddingNewprint: View {
         animation: .default
     ) private var measurements: FetchedResults<Userdata>
     
-    @State private var cube: Float = 0.0
+    @State private var cube: Int64 = 0
     @State private var gramms: Int64 = 0
-    @State private var metre: Float = 0.0
+    @State private var metre: Int64 = 0
     @State private var printime: Date = Date()
     @State private var projectname: String = ""
     @State private var todaydate: Date = Date()
@@ -27,12 +27,12 @@ struct AddingNewprint: View {
             Form {
                 Section(header: Text("Measurement Data")) {
                     TextField("Cube", value: $cube, format: .number)
-                        .keyboardType(.decimalPad)
+                        .keyboardType(.numberPad)
                     TextField("Gramms", value: $gramms, format: .number)
                         .keyboardType(.numberPad)
                     TextField("Metre", value: $metre, format: .number)
-                        .keyboardType(.decimalPad)
-                    DatePicker("Printime", selection: $printime, displayedComponents: .date)
+                        .keyboardType(.numberPad)
+                    DatePicker("Printime", selection: $printime, displayedComponents: [.hourAndMinute])
                     TextField("Project Name", text: $projectname)
                     DatePicker("Today's Date", selection: $todaydate, displayedComponents: .date)
                 }
@@ -46,24 +46,13 @@ struct AddingNewprint: View {
                 }
                 .padding()
                 
-                List {
-                    ForEach(measurements) { measurement in
-                        VStack(alignment: .leading) {
-                            Text("Cube: \(measurement.cube)")
-                            Text("Gramms: \(measurement.gramms)")
-                            Text("Metre: \(measurement.metre)")
-                            Text("Printime: \(measurement.printime ?? Date(), formatter: dateFormatter)")
-                            Text("Project Name: \(measurement.projectname ?? "Unknown")")
-                            Text("Today's Date: \(measurement.todaydate ?? Date(), formatter: dateFormatter)")
-                        }
-                    }
-                }
             }
         }
         .padding()
     }
     
     private func saveData() {
+
         let newMeasurement = Userdata(context: viewContext)
         newMeasurement.cube = cube
         newMeasurement.gramms = gramms
@@ -75,9 +64,9 @@ struct AddingNewprint: View {
         do {
             try viewContext.save()
             // Reset form fields after saving
-            cube = 0.0
+            cube = 0
             gramms = 0
-            metre = 0.0
+            metre = 0
             printime = Date()
             projectname = ""
             todaydate = Date()

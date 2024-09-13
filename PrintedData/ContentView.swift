@@ -9,25 +9,49 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-            NavigationView {
-                VStack {
-                    Text("Bienvenue dans l'application")
-                        .font(.largeTitle)
+        NavigationStack {
+            VStack {
+                // Premier groupe de navigation pour les impressions
+                HStack {
+                    Text("Your print")
+                        .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    Spacer()
+                    NavigationLink("+", destination: AddingNewprint())
                         .padding()
+                        .font(.title)
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                    .clipShape(Capsule())
                     
-                    NavigationLink(destination: AddingNewprint()) {
-                        Text("Accéder au Formulaire")
-                            .padding()
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    .padding()
                 }
-                .navigationTitle("Your Prints")
+                .padding()
+                Spacer()
+                        
+                // Deuxième groupe de navigation pour les données
+                ZStack (alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/) {
+                    NavigationLink("Données", destination: OldsData())
+                        .padding()
+                        .font(.title)
+                        .background(Color.green)
+                        .foregroundColor(.white)
+                    .clipShape(Capsule())
+                    Spacer()
+                    
+                }
+                .padding()
+                
             }
         }
-
+    }
 }
+
+
+
+
+#Preview{
+    ContentView()
+}
+
 
 

@@ -8,18 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		A01F926A2C934A6000055158 /* AddingNewprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01F92692C934A6000055158 /* AddingNewprint.swift */; };
+		A01F926C2C9358E900055158 /* OldsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01F926B2C9358E900055158 /* OldsData.swift */; };
+		A01F926D2C936FEF00055158 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98D22C89938800EABD02 /* Assets.xcassets */; };
+		A01F92702C93798400055158 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01F926F2C93798400055158 /* Button.swift */; };
+		A01F92742C9388F000055158 /* Model.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A0FC98F22C8B63B400EABD02 /* Model.xcdatamodeld */; };
 		A0FC98CF2C89938600EABD02 /* PrintedDataApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98CE2C89938600EABD02 /* PrintedDataApp.swift */; };
 		A0FC98D12C89938600EABD02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98D02C89938600EABD02 /* ContentView.swift */; };
 		A0FC98E32C8B321D00EABD02 /* Logo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98E22C8B321D00EABD02 /* Logo.swift */; };
 		A0FC98E52C8B328C00EABD02 /* Logoparams.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98E42C8B328C00EABD02 /* Logoparams.swift */; };
 		A0FC98EE2C8B5EA600EABD02 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98ED2C8B5EA600EABD02 /* Persistence.swift */; };
-		A0FC98F42C8B63B400EABD02 /* Model.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A0FC98F22C8B63B400EABD02 /* Model.xcdatamodeld */; };
 		A0FC98FF2C8B65E300EABD02 /* Userdata+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98FD2C8B65E300EABD02 /* Userdata+CoreDataClass.swift */; };
 		A0FC99002C8B65E300EABD02 /* Userdata+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FC98FE2C8B65E300EABD02 /* Userdata+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A01F92692C934A6000055158 /* AddingNewprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddingNewprint.swift; sourceTree = "<group>"; };
+		A01F926B2C9358E900055158 /* OldsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OldsData.swift; sourceTree = "<group>"; };
+		A01F926F2C93798400055158 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		A0FC98CB2C89938600EABD02 /* PrintedData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PrintedData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0FC98CE2C89938600EABD02 /* PrintedDataApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintedDataApp.swift; sourceTree = "<group>"; };
 		A0FC98D02C89938600EABD02 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -85,7 +90,9 @@
 		A0FC98EF2C8B5EAC00EABD02 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A01F926F2C93798400055158 /* Button.swift */,
 				A01F92692C934A6000055158 /* AddingNewprint.swift */,
+				A01F926B2C9358E900055158 /* OldsData.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -168,7 +175,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0FC98F42C8B63B400EABD02 /* Model.xcdatamodeld in Resources */,
+				A01F92742C9388F000055158 /* Model.xcdatamodeld in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,14 +186,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A01F926D2C936FEF00055158 /* Assets.xcassets in Sources */,
 				A0FC98E32C8B321D00EABD02 /* Logo.swift in Sources */,
 				A0FC98E52C8B328C00EABD02 /* Logoparams.swift in Sources */,
+				A01F926C2C9358E900055158 /* OldsData.swift in Sources */,
 				A0FC98D12C89938600EABD02 /* ContentView.swift in Sources */,
 				A0FC98FF2C8B65E300EABD02 /* Userdata+CoreDataClass.swift in Sources */,
 				A0FC98CF2C89938600EABD02 /* PrintedDataApp.swift in Sources */,
 				A01F926A2C934A6000055158 /* AddingNewprint.swift in Sources */,
 				A0FC99002C8B65E300EABD02 /* Userdata+CoreDataProperties.swift in Sources */,
 				A0FC98EE2C8B5EA600EABD02 /* Persistence.swift in Sources */,
+				A01F92702C93798400055158 /* Button.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

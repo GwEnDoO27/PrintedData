@@ -16,9 +16,9 @@ extension Userdata {
         return NSFetchRequest<Userdata>(entityName: "Userdata")
     }
 
-    @NSManaged public var cube: Float
+    @NSManaged public var cube: Int64
     @NSManaged public var gramms: Int64
-    @NSManaged public var metre: Float
+    @NSManaged public var metre: Int64
     @NSManaged public var printime: Date?
     @NSManaged public var projectname: String?
     @NSManaged public var todaydate: Date?

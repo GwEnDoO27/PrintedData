@@ -6,13 +6,44 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct OldsData: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    @FetchRequest(
+            sortDescriptors: [NSSortDescriptor(keyPath: \Userdata.printime, ascending: true)],
+            animation: .default
+        ) private var measurements: FetchedResults<Userdata>
+        
+        private var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            return formatter
+        }
+        
+    
+    private var timeformatter: DateFormatter{
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm" // Format heure et minute
+        return formatter
     }
+    
+        var body: some View {
+            List {
+                ForEach(measurements) { measurement in
+                    VStack(alignment: .leading) {
+                        Text("Cube: \(measurement.cube)")
+                        Text("Grammes utilisé:  \(measurement.gramms)")
+                        Text("Métres de filament utilisé : \(measurement.metre)")
+                        Text("Temps d'impressions : \(measurement.printime ?? Date(), formatter: timeformatter)")
+                        Text("Noms du Projet : \(measurement.projectname ?? "Unknown")")
+                        Text("Today's Date: \(measurement.todaydate ?? Date(), formatter: dateFormatter)")
+                    }
+                    .padding()
+                }
+            }
+            .navigationTitle("Historique des Mesures")
+        }
+
 }
 
-#Preview {
-    OldsData()
-}
