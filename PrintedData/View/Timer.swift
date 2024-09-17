@@ -34,76 +34,68 @@ class TimerManager: ObservableObject {
     }
 }
 
+
+import SwiftUI
+
 struct CustomTimePickerView: View {
-    @StateObject private var timerManager = TimerManager() // Crée l'instance du TimerManager
-    @State private var selectedHour = 0    // Valeur initiale pour les heures
-    @State private var selectedMinute = 0  // Valeur initiale pour les minutes
-    @State private var isActive = false    // Gérer l'état du Timer
+    @StateObject private var timerManager = TimerManager()
+    @State private var selectedHour = 0
+    @State private var selectedMinute = 0
+    @State private var isActive = false
     
-    // Heures disponibles pour le Picker (0 à 23 heures)
     let hourOptions = Array(0...23)
-    
-    // Minutes disponibles pour le Picker (0 à 59 minutes)
     let minuteOptions = Array(0...59)
 
     var body: some View {
         VStack(spacing: 20) {
-            // Afficher les Pickers uniquement si le timer n'est pas actif
             if !isActive {
                 Text("Selectionne le temps d'impression")
                     .font(.headline)
 
                 HStack {
-                    // Picker pour les heures
                     Picker("Heures", selection: $selectedHour) {
                         ForEach(hourOptions, id: \.self) { hour in
                             Text("\(hour) h")
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())  // Style roue pour plus de facilité
+                    .pickerStyle(WheelPickerStyle())
                     .frame(maxWidth: 100)
 
-                    // Picker pour les minutes
                     Picker("Minutes", selection: $selectedMinute) {
                         ForEach(minuteOptions, id: \.self) { minute in
                             Text("\(minute) min")
                         }
                     }
-                    .pickerStyle(WheelPickerStyle())  // Style roue pour plus de facilité
+                    .pickerStyle(WheelPickerStyle())
                     .frame(maxWidth: 100)
                 }
-            }
-
-            // Affichage du temps restant
-            if timerManager.timeRemaining > 0 {
+            } else {
+                // Le TimerRingView n'apparaît que lorsque le timer est actif
+                TimerRingView(progress: calculateProgress())
+                    .frame(width: 200, height: 200)
+                    .animation(.linear, value: calculateProgress())
+                
                 Text("Temps restant : \(formatTimeRemaining(timerManager.timeRemaining))")
-                    .font(.largeTitle)
-                    .padding()
-            } else if isActive && timerManager.timeRemaining == 0 {
-                Text("Le temps est écoulé !")
-                    .font(.largeTitle)
+                    .font(.title)
                     .padding()
             }
 
-            
-            // Bouton pour démarrer le timer
             HStack {
                 Button(action: {
                     isActive = true
-                    timerManager.startTimer(hours: selectedHour, minutes: selectedMinute) // Démarrer le timer avec les heures et minutes sélectionnées
+                    timerManager.startTimer(hours: selectedHour, minutes: selectedMinute)
                 }) {
                     Text(isActive ? "En cours..." : "Démarrer le timer")
                         .padding()
                         .background(isActive ? Color.gray : Color.green)
                         .foregroundColor(.white)
                         .clipShape(Capsule())
-                }// Désactiver le bouton pendant que le timer est actif
+                }
+                .disabled(isActive)
 
-            .disabled(isActive)
-                // Bouton pour réinitialiser le timer
                 Button(action: {
                     isActive = false
-                    timerManager.stopTimer() // Arrêter le timer
+                    timerManager.stopTimer()
                 }) {
                     Text("Réinitialiser")
                         .padding()
@@ -112,11 +104,43 @@ struct CustomTimePickerView: View {
                         .clipShape(Capsule())
                 }
             }
-
         }
-        
         .padding()
     }
+
+    func formatTimeRemaining(_ time: Int) -> String {
+        let hours = time / 3600
+        let minutes = (time % 3600) / 60
+        let seconds = time % 60
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+
+    func calculateProgress() -> CGFloat {
+        let totalTime = (selectedHour * 3600) + (selectedMinute * 60)
+        let elapsedTime = totalTime - timerManager.timeRemaining
+        return CGFloat(elapsedTime) / CGFloat(totalTime)
+    }
+}
+
+struct TimerRingView: View {
+    var progress: CGFloat
+    
+    var body: some View {
+        ZStack {
+            Circle()
+                .stroke(lineWidth: 20)
+                .opacity(0.3)
+                .foregroundColor(.gray)
+            
+            Circle()
+                .trim(from: 0.0, to: min(progress, 1.0))
+                .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
+                .foregroundColor(.blue)
+                .rotationEffect(Angle(degrees: 270.0))
+        }
+    }
+}
+
 
     // Fonction pour formater le temps restant en heures et minutes
     func formatTimeRemaining(_ time: Int) -> String {
@@ -126,7 +150,7 @@ struct CustomTimePickerView: View {
 
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
-}
+
 
 
 
