@@ -80,11 +80,11 @@ struct CustomTimePickerView: View {
                     isActive = true
                     timerManager.startTimer(hours: selectedHour, minutes: selectedMinute)
                 }) {
-                    Text(isActive ? "En cours..." : "Démarrer le timer")
+                    Image(systemName: "play.circle.fill")
                         .font(.headline)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        //.background(isActive ? Color.gray : LinearGradient(gradient: Gradient(colors: [Color.green, Color.blue]), startPoint: .leading, endPoint: .trailing))
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(.white)
                         .cornerRadius(15)
                         .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
@@ -95,7 +95,8 @@ struct CustomTimePickerView: View {
                     isActive = false
                     timerManager.stopTimer()
                 }) {
-                    Text("Réinitialiser")
+                    //Text("Réinitialiser")
+                    Image(systemName: "stop.circle.fill")
                         .font(.headline)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity)
