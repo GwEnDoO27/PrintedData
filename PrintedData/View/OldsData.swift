@@ -52,13 +52,13 @@ struct MeasurementCard: View {
                 .foregroundColor(.primary)
             
             HStack {
-                InfoItem(title: "Cube", value: String(format: "%.2f", measurement.cube))
+                InfoItem(title: "Cube", value: String(format: "%d mm³", measurement.cube))
                 Spacer()
-                InfoItem(title: "Grammes", value: String(format: "%.2f", measurement.gramms))
+                InfoItem(title: "Grammes", value: String(format: "%d g", measurement.gramms))
             }
             
             HStack {
-                InfoItem(title: "Mètres", value: String(format: "%.2f", measurement.metre))
+                InfoItem(title: "Mètres", value: String(format: "%d cm", measurement.metre))
                 Spacer()
                 InfoItem(title: "Temps", value: timeFormatter.string(from: measurement.printime ?? Date()))
             }
@@ -90,4 +90,6 @@ struct InfoItem: View {
     }
 }
 
-
+#Preview {
+    OldsData()
+}
