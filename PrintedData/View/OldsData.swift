@@ -8,6 +8,8 @@ struct OldsData: View {
         animation: .default
     ) private var measurements: FetchedResults<Userdata>
     
+    @State private var showingDeleteAlert = false
+    
     private let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
@@ -26,17 +28,60 @@ struct OldsData: View {
             LinearGradient(gradient: Gradient(colors: [Color.blue.opacity(0.3), Color.purple.opacity(0.3)]), startPoint: .topLeading, endPoint: .bottomTrailing)
                 .edgesIgnoringSafeArea(.all)
             
-            ScrollView {
-                LazyVStack(spacing: 15) {
-                    ForEach(measurements) { measurement in
-                        MeasurementCard(measurement: measurement, dateFormatter: dateFormatter, timeFormatter: timeFormatter)
-                    }
+            List {
+                ForEach(measurements) { measurement in
+                    MeasurementCard(measurement: measurement, dateFormatter: dateFormatter, timeFormatter: timeFormatter)
+                        .listRowBackground(Color.clear)
+                        .listRowSeparator(.hidden)
+                        .padding(.vertical, 8)
                 }
-                .padding()
+                .onDelete(perform: deleteItems)
             }
+            .listStyle(PlainListStyle())
         }
         .navigationTitle("Historique des Mesures")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    showingDeleteAlert = true
+                }) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+        }
+        .alert("Supprimer toutes les données", isPresented: $showingDeleteAlert) {
+            Button("Annuler", role: .cancel) { }
+            Button("Supprimer", role: .destructive) {
+                deleteAllItems()
+            }
+        } message: {
+            Text("Êtes-vous sûr de vouloir supprimer toutes les données ? Cette action est irréversible.")
+        }
+    }
+    
+    private func deleteItems(offsets: IndexSet) {
+        withAnimation {
+            offsets.map { measurements[$0] }.forEach(viewContext.delete)
+            saveContext()
+        }
+    }
+    
+    private func deleteAllItems() {
+        withAnimation {
+            measurements.forEach(viewContext.delete)
+            saveContext()
+        }
+    }
+    
+    private func saveContext() {
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
     }
 }
 
@@ -52,15 +97,15 @@ struct MeasurementCard: View {
                 .foregroundColor(.primary)
             
             HStack {
-                InfoItem(title: "Cube", value: String(format: "%d mm³", measurement.cube))
+                InfoItem(title: "Cube", value: String(format: "%d cm³", measurement.cube))
                 Spacer()
-                InfoItem(title: "Grammes", value: String(format: "%d g", measurement.gramms))
+                InfoItem(title: "Grammes utilisés", value: String(format: "%d g", measurement.gramms))
             }
             
             HStack {
                 InfoItem(title: "Mètres", value: String(format: "%d cm", measurement.metre))
                 Spacer()
-                InfoItem(title: "Temps", value: timeFormatter.string(from: measurement.printime ?? Date()))
+                InfoItem(title: "Temps d'impression", value: timeFormatter.string(from: measurement.printime ?? Date()))
             }
             
             Text("Date: \(dateFormatter.string(from: measurement.todaydate ?? Date()))")
