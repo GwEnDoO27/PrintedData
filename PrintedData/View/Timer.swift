@@ -1,8 +1,10 @@
 import SwiftUI
+import BackgroundTasks
 
 class TimerChron: ObservableObject {
     @Published var timeRemaining: Int = 0
     var timer: Timer?
+    var backgroundTask: UIBackgroundTaskIdentifier = .invalid
 
     func startTimer(hours: Int, minutes: Int) {
         timeRemaining = (hours * 3600) + (minutes * 60)
@@ -11,23 +13,47 @@ class TimerChron: ObservableObject {
             guard let self = self else { return }
             if self.timeRemaining > 0 {
                 self.timeRemaining -= 1
+                self.updateAppBadge()
             } else {
-                self.timer?.invalidate()
+                self.stopTimer()
             }
         }
+        
+        // Register background task
+        registerBackgroundTask()
     }
 
     func stopTimer() {
         timer?.invalidate()
+        timer = nil
+        endBackgroundTask()
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+
+    func registerBackgroundTask() {
+        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
+            self?.endBackgroundTask()
+        }
+    }
+
+    func endBackgroundTask() {
+        if backgroundTask != .invalid {
+            UIApplication.shared.endBackgroundTask(backgroundTask)
+            backgroundTask = .invalid
+        }
+    }
+
+    func updateAppBadge() {
+        UIApplication.shared.applicationIconBadgeNumber = timeRemaining
     }
 
     deinit {
-        timer?.invalidate()
+        stopTimer()
     }
 }
 
 struct CustomTimePickerView: View {
-    @StateObject private var timerManager = TimerManager()
+    @StateObject private var timerManager = TimerChron()
     @State private var selectedHour = 0
     @State private var selectedMinute = 0
     @State private var isActive = false
@@ -95,7 +121,6 @@ struct CustomTimePickerView: View {
                     isActive = false
                     timerManager.stopTimer()
                 }) {
-                    //Text("Réinitialiser")
                     Image(systemName: "stop.circle.fill")
                         .font(.headline)
                         .padding()
@@ -146,8 +171,6 @@ struct TimerRingView: View {
     }
 }
 
-struct CustomTimePickerView_Previews: PreviewProvider {
-    static var previews: some View {
-        CustomTimePickerView()
-    }
+#Preview {
+    CustomTimePickerView()
 }
