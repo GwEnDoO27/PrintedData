@@ -34,7 +34,7 @@ struct OldsData: View {
                         .listRowBackground(Color.clear)
                         .listRowSeparator(.hidden)
                         .padding(.vertical, 8)
-                }
+                                        }
                 .onDelete(perform: deleteItems)
             }
             .listStyle(PlainListStyle())
@@ -95,6 +95,8 @@ struct MeasurementCard: View {
             Text(measurement.projectname ?? "Unknown")
                 .font(.system(size: 20, weight: .bold, design: .rounded))
                 .foregroundColor(.primary)
+                //.background(Color(.systemGray6))
+
             
             HStack {
                 InfoItem(title: "Cube", value: String(format: "%d cm³", measurement.cube))
@@ -113,7 +115,7 @@ struct MeasurementCard: View {
                 .foregroundColor(.secondary)
         }
         .padding()
-        .background(Color.white.opacity(0.8))
+        .background(Color(.systemGray6))
         .cornerRadius(15)
         .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
     }
@@ -132,7 +134,9 @@ struct InfoItem: View {
                 .font(.system(size: 16, weight: .semibold, design: .rounded))
                 .foregroundColor(.primary)
         }
+        
     }
+
 }
 
 #Preview {
