@@ -142,7 +142,7 @@ struct CustomTimePickerView: View {
                     .frame(width: 100)
                     .clipped()
                 }
-                .background(Color.white.opacity(0.8))
+                .background(Color(.systemGray6))
                 .cornerRadius(15)
                 .shadow(color: .gray.opacity(0.2), radius: 5, x: 0, y: 2)
             } else {
@@ -188,7 +188,8 @@ struct CustomTimePickerView: View {
             }
         }
         .padding()
-        .background(Color.white.opacity(0.5))
+        //.background(Color.white.opacity(0.5))
+        .background(Color(.systemGray6))
         .cornerRadius(20)
         .shadow(color: .gray.opacity(0.1), radius: 10, x: 0, y: 5)
     }
