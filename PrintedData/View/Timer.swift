@@ -1,56 +1,111 @@
 import SwiftUI
+import UserNotifications
 import BackgroundTasks
 
 class TimerChron: ObservableObject {
     @Published var timeRemaining: Int = 0
-    var timer: Timer?
-    var backgroundTask: UIBackgroundTaskIdentifier = .invalid
-
+    private var endDate: Date?
+    private let timerKey = "com.yourapp.timerEndDate"
+    
+    init() {
+        loadSavedTimer()
+    }
+    
     func startTimer(hours: Int, minutes: Int) {
-        timeRemaining = (hours * 3600) + (minutes * 60)
-        timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-            if self.timeRemaining > 0 {
-                self.timeRemaining -= 1
-                self.updateAppBadge()
+        let totalSeconds = (hours * 3600) + (minutes * 60)
+        endDate = Date().addingTimeInterval(TimeInterval(totalSeconds))
+        saveTimer()
+        scheduleBackgroundTask()
+        updateTimeRemaining()
+    }
+    
+    func stopTimer() {
+        endDate = nil
+        UserDefaults.standard.removeObject(forKey: timerKey)
+        cancelBackgroundTask()
+    }
+    
+    private func updateTimeRemaining() {
+        guard let endDate = endDate else { return }
+        let remainingTime = Int(endDate.timeIntervalSinceNow)
+        if remainingTime > 0 {
+            timeRemaining = remainingTime
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.updateTimeRemaining()
+            }
+        } else {
+            timeRemaining = 0
+            stopTimer()
+            sendNotification()
+        }
+    }
+    
+    private func saveTimer() {
+        UserDefaults.standard.set(endDate, forKey: timerKey)
+    }
+    
+    private func loadSavedTimer() {
+        if let savedDate = UserDefaults.standard.object(forKey: timerKey) as? Date {
+            endDate = savedDate
+            updateTimeRemaining()
+        }
+    }
+    
+    func sendNotification() {
+        let content = UNMutableNotificationContent()
+        content.title = "Timer terminé"
+        content.body = "Votre temps d'impression est écoulé !"
+        content.sound = UNNotificationSound.default
+        
+        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Erreur lors de l'envoi de la notification: \(error)")
             } else {
-                self.stopTimer()
+                print("Notification envoyée avec succès")
             }
         }
+    }
+    
+    private func scheduleBackgroundTask() {
+        guard let endDate = endDate else { return }
+        let timeInterval = endDate.timeIntervalSinceNow
         
-        // Register background task
-        registerBackgroundTask()
+        let request = BGAppRefreshTaskRequest(identifier: "com.yourapp.timerRefresh")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: timeInterval)
+        
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            print("Tâche en arrière-plan planifiée avec succès")
+        } catch {
+            print("Impossible de planifier la tâche en arrière-plan: \(error)")
+        }
     }
-
-    func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-        endBackgroundTask()
-        UIApplication.shared.applicationIconBadgeNumber = 0
+    
+    private func cancelBackgroundTask() {
+        BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: "com.yourapp.timerRefresh")
     }
-
-    func registerBackgroundTask() {
-        backgroundTask = UIApplication.shared.beginBackgroundTask { [weak self] in
-            self?.endBackgroundTask()
+    
+    func handleBackgroundTask() {
+        updateTimeRemaining()
+        if timeRemaining == 0 {
+            sendNotification()
+        } else {
+            scheduleBackgroundTask()
         }
     }
 
-    func endBackgroundTask() {
-        if backgroundTask != .invalid {
-            UIApplication.shared.endBackgroundTask(backgroundTask)
-            backgroundTask = .invalid
+    func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if granted {
+                print("Notification permission accordée")
+            } else if let error = error {
+                print("Erreur de demande de permission: \(error.localizedDescription)")
+            }
         }
-    }
-
-    func updateAppBadge() {
-        UIApplication.shared.applicationIconBadgeNumber = timeRemaining
-    }
-
-    deinit {
-        stopTimer()
     }
 }
+
 
 struct CustomTimePickerView: View {
     @StateObject private var timerManager = TimerChron()
