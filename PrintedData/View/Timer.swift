@@ -165,7 +165,7 @@ struct CustomTimePickerView: View {
                         .font(.headline)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.red]), startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(.white)
                         .cornerRadius(15)
                         .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
@@ -180,7 +180,7 @@ struct CustomTimePickerView: View {
                         .font(.headline)
                         .padding()
                         .frame(minWidth: 0, maxWidth: .infinity)
-                        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .leading, endPoint: .trailing))
+                        .background(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.red]), startPoint: .leading, endPoint: .trailing))
                         .foregroundColor(.white)
                         .cornerRadius(15)
                         .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
@@ -221,7 +221,7 @@ struct TimerRingView: View {
             Circle()
                 .trim(from: 0.0, to: min(progress, 1.0))
                 .stroke(style: StrokeStyle(lineWidth: 20, lineCap: .round, lineJoin: .round))
-                .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.purple]), startPoint: .topLeading, endPoint: .bottomTrailing))
+                .fill(LinearGradient(gradient: Gradient(colors: [Color.blue, Color.red]), startPoint: .topLeading, endPoint: .bottomTrailing))
                 .rotationEffect(Angle(degrees: 270.0))
         }
     }
