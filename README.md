@@ -58,9 +58,9 @@ Les contributions sont les bienvenues ! Si vous souhaitez participer au projet :
 N'hésitez pas à soumettre des suggestions d'amélioration ou à signaler des problèmes en ouvrant une issue.
 
 ## Aprecus
-![alt text] (./Images/Screenshot1.png)
-![alt text] (./Images/Screenshot2.png)
-![alt text] (./Images/Screenshot3.png)
+![alt text](./Images/Screenshot1.png)
+![alt text](./Images/Screenshot2.png)
+![alt text](./Images/Screenshot3.png)
 
 ## Licence
 
