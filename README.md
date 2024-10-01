@@ -15,13 +15,7 @@ Cette application est particulièrement utile pour les utilisateurs qui gèrent 
 - **Historique des impressions** : Enregistrez les informations essentielles de chaque impression, y compris la durée, le type de papier utilisé, l'imprimante et d'autres détails pertinents.
 - **Données d'impression détaillées** : Affichez et exportez l'historique de vos impressions avec toutes les données enregistrées pour analyse.
 - **Notifications intelligentes** : Recevez des rappels et des alertes lorsque vos impressions sont sur le point de se terminer.
-- **Statistiques** : Analysez la fréquence, la durée moyenne et d'autres statistiques utiles à propos de vos impressions.
-
-## Installation
-
-1. Téléchargez **PrintedData** depuis l'App Store.
-2. Installez l'application sur votre iPhone ou iPad.
-3. Ouvrez l'application et suivez les instructions pour démarrer.
+- **Statistiques** : Analysez la fréquence, la durée moyenne et d'autres statistiques utiles à propos de vos impressions. (in-progress)
 
 ### Prérequis
 
@@ -41,10 +35,10 @@ Cette application est particulièrement utile pour les utilisateurs qui gèrent 
 
 ### 3. Enregistrer les données de l'impression
 - À la fin de chaque impression, vous pouvez choisir de sauvegarder les détails.
-- Consultez l'historique de vos impressions dans l'onglet **Historique**.
+- Consultez l'historique de vos impressions dans l'onglet **Anciens Prints**.
 
 ### 4. Accéder aux statistiques
-- Accédez à l'onglet **Statistiques** pour visualiser des informations agrégées sur vos impressions passées.
+- Accédez à l'onglet **Anciens Prints** pour visualiser des informations agrégées sur vos impressions passées.
 
 ## Technologies utilisées
 
@@ -62,6 +56,11 @@ Les contributions sont les bienvenues ! Si vous souhaitez participer au projet :
 4. Envoyez une pull request.
 
 N'hésitez pas à soumettre des suggestions d'amélioration ou à signaler des problèmes en ouvrant une issue.
+
+## Aprecus
+![alt text] (./Images/Screenshot1.png)
+![alt text] (./Images/Screenshot2.png)
+![alt text] (./Images/Screenshot3.png)
 
 ## Licence
 
